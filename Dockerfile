@@ -2,7 +2,7 @@ FROM debian:9
 
 ARG PUID=1000
 ARG PGID=1000
-ARG MINECRAFT_VERSION=1.14.4
+ARG MINECRAFT_VERSION=1.15.2
 ARG BUILDTOOLS_VERSION=lastSuccessfulBuild
 
 ENV MIN_RAM=1G \
@@ -18,7 +18,8 @@ RUN apt update; \
     useradd -M -u $PUID -g minecraft minecraft; \
     curl -sL "https://hub.spigotmc.org/jenkins/job/BuildTools/${BUILDTOOLS_VERSION}/artifact/target/BuildTools.jar" > /app/BuildTools.jar; \
     cd /app; \
-    java -Xmx1G -jar /app/BuildTools.jar --compile SPIGOT --rev ${MINECRAFT_VERSION} -o /default
+    java -Xmx1G -jar /app/BuildTools.jar --compile SPIGOT --rev ${MINECRAFT_VERSION} -o /default; \
+    rm -rf /app
 
 RUN { \
         echo '#!/bin/bash'; \
